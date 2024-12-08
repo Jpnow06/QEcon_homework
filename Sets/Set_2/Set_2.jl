@@ -90,4 +90,40 @@ end
 
 
 cost, x1, x2 = solve_minimization(0.5, 0.8, 1.0, 1.0, 10.0)
+2.
+function exact_solution(α,β)
+    x5=1
+    x4=x5
+    x3=x4
+    x2=x3
+    x1=x2-α-x4*(α-β)-x5*(β)
+    return [x1,x2,x3,x4,x5]
 
+    
+    
+end
+exact_solution(4,7)
+function backlslash_x(α,β) 
+A=[1 -1 0 α-β β ; 0 1 -1 0 0 ; 0 0 1 -1 0 ; 0 0 0 1 -1 ; 0 0 0 0 1]
+b=[α ; 0 ; 0 ; 0 ; 1]
+x = A\ b
+return x
+end
+backlslash_x(2,8) 
+
+function relative_residual(α,β)
+    A=[1 -1 0 α-β β ; 0 1 -1 0 0 ; 0 0 1 -1 0 ; 0 0 0 1 -1 ; 0 0 0 0 1]
+b=[α ; 0 ; 0 ; 0 ; 1]
+return norm(A*backlslash_x(α,β)-b)/norm(b)
+end
+relative_residual(4,5)
+
+function condition_numerator(α,β)
+    A=[1 -1 0 α-β β ; 0 1 -1 0 0 ; 0 0 1 -1 0 ; 0 0 0 1 -1 ; 0 0 0 0 1]
+b=[α ; 0 ; 0 ; 0 ; 1]
+ norm_A=norm(A,2)
+ inv_norm_A=norm(inv(A))
+ return norm_A*inv_norm_A
+end
+
+condition_numerator(3,16)
